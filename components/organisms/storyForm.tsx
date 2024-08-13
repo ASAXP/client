@@ -9,6 +9,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from '@/components/atoms/form';
 import { useToast } from '@/components/atoms/use-toast';
 import { Button } from '@/components/atoms/button';
@@ -26,7 +27,7 @@ import {
 const storyFormSchema = z.object({
   type: z.enum(['story', 'spike', 'epic']),
   title: z.string(),
-  point: z.number().min(0).max(10),
+  point: z.number({ message: 'not number' }),
 });
 
 export default function StoryForm() {
@@ -48,7 +49,10 @@ export default function StoryForm() {
   };
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="grid grid-cols-[1fr_1fr_1fr_150px] items-end gap-4"
+      >
         <FormField
           control={form.control}
           name="type"
@@ -92,9 +96,16 @@ export default function StoryForm() {
           name="point"
           render={({ field }) => (
             <FormItem>
+              <FormLabel>Story Point</FormLabel>
               <FormControl>
-                <Input type="number" inputMode="numeric" {...field} />
+                <Input
+                  type="number"
+                  inputMode="numeric"
+                  {...field}
+                  pattern="/d"
+                />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
