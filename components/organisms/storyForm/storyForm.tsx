@@ -39,20 +39,21 @@ const storyFormSchema = z.object({
     ),
 });
 
-export default function StoryForm() {
+type TStoryForm = z.infer<typeof storyFormSchema>;
+
+export default function StoryForm({ type, title, point }: Partial<TStoryForm>) {
   const { toast } = useToast();
-  const form = useForm<z.infer<typeof storyFormSchema>>({
+  const form = useForm<TStoryForm>({
     mode: 'onChange',
     resolver: zodResolver(storyFormSchema),
     defaultValues: {
-      type: 'story',
-      title: '',
-      point: 0,
+      type: type ?? 'story',
+      title: title ?? '',
+      point: point ?? 0,
     },
   });
 
-  const onSubmit = (data: z.infer<typeof storyFormSchema>) => {
-    console.log('submit::', data);
+  const onSubmit = (data: TStoryForm) => {
     toast({
       title: 'success',
       description: JSON.stringify(data),
