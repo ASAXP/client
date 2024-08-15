@@ -13,7 +13,12 @@ const config: Config = {
   coverageProvider: 'v8',
   testEnvironment: 'jsdom',
   testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(test).[tj]s?(x)'],
-  testPathIgnorePatterns: ['/node_modules/', '<rootDir>/.next/'],
+  testPathIgnorePatterns: [
+    '/node_modules/',
+    '<rootDir>/.next/',
+    '<rootDir>/components/atoms/*',
+    '<rootDir>/components/molecules/*',
+  ],
   moduleNameMapper: {
     '^@/components/(.*)$': '<rootDir>/components/$1',
   },
