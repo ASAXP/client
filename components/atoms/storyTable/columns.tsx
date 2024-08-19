@@ -3,6 +3,7 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { Badge } from '@/components/atoms/badge';
 import { Checkbox } from '@/components/atoms/checkbox';
+import StoryForm from '@/organisms/storyForm/storyForm';
 
 type Story = {
   type: 'story' | 'epic' | 'spike';
@@ -59,4 +60,14 @@ export const storyColumns: ColumnDef<Story>[] = [
     header: () => <div>point</div>,
     cell: ({ row }) => <div>{row.getValue('point')}</div>,
   },
+  // {
+  //   id: 'edit',
+  //   accessorKey: 'edit',
+  //   cell: ({ row }) => {
+  //     const type = row.getValue('type') as 'story' | 'epic' | 'spike';
+  //     const title = row.getValue('title') as string;
+  //     const point = row.getValue('point') as number;
+  //     return <StoryForm type={type} title={title} point={point} />;
+  //   },
+  // },
 ];
