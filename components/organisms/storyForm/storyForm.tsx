@@ -23,6 +23,8 @@ import {
   SelectContent,
   SelectGroup,
 } from '@/components/atoms/select';
+import { api } from '@/src/utils/api';
+import { revalidatePath } from 'next/cache';
 
 const storyFormSchema = z.object({
   type: z.enum(['story', 'spike', 'epic']),
@@ -32,16 +34,23 @@ const storyFormSchema = z.object({
     .pipe(
       z.coerce
         .number()
-        .positive({ message: '음수는 입력할 수 없습니다.' })
-        .int({ message: '스토리 포인트는 정수값이어야 합니다.' })
         .min(0, { message: '스토리 포인트는 0 이상이어야 합니다.' })
         .max(10, { message: '스토리 포인트는 10 이하여야 합니다.' }),
     ),
 });
 
-type TStoryForm = z.infer<typeof storyFormSchema>;
+type TStoryForm = z.infer<typeof storyFormSchema> & {
+  id?: number;
+  variant: 'create' | 'edit';
+};
 
-export default function StoryForm({ type, title, point }: Partial<TStoryForm>) {
+export default function StoryForm({
+  id,
+  type,
+  title,
+  point,
+  variant,
+}: Partial<TStoryForm>) {
   const { toast } = useToast();
   const form = useForm<TStoryForm>({
     mode: 'onChange',
@@ -49,15 +58,26 @@ export default function StoryForm({ type, title, point }: Partial<TStoryForm>) {
     defaultValues: {
       type: type ?? 'story',
       title: title ?? '',
-      point: point ?? 0,
+      point: point ?? 1,
     },
   });
 
-  const onSubmit = (data: TStoryForm) => {
-    toast({
-      title: 'success',
-      description: JSON.stringify(data),
-    });
+  const onSubmit = async (data: TStoryForm) => {
+    if (variant === 'create') {
+      await api.fetchData(`/stories`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+    } else if (variant === 'edit') {
+      await api.fetchData(`/stories/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+    } else {
+      throw Error('invalid data');
+    }
   };
   return (
     <Form {...form}>

@@ -1,11 +1,12 @@
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
-import { Badge } from '@/components/atoms/badge';
 import { Checkbox } from '@/components/atoms/checkbox';
-import StoryForm from '@/organisms/storyForm/storyForm';
+import StoryDialog from '@/app/user-stories/storyDialog';
+import StoryRemoveButton from '@/components/organisms/storyForm/storyRemoveButton';
 
 type Story = {
+  storyID: number;
   type: 'story' | 'epic' | 'spike';
   title: string;
   point: number;
@@ -36,6 +37,10 @@ export const storyColumns: ColumnDef<Story>[] = [
     ),
   },
   {
+    id: 'storyID',
+    accessorKey: 'storyID',
+  },
+  {
     id: 'type',
     accessorKey: 'type',
     header: () => <div>Type</div>,
@@ -60,14 +65,28 @@ export const storyColumns: ColumnDef<Story>[] = [
     header: () => <div>point</div>,
     cell: ({ row }) => <div>{row.getValue('point')}</div>,
   },
-  // {
-  //   id: 'edit',
-  //   accessorKey: 'edit',
-  //   cell: ({ row }) => {
-  //     const type = row.getValue('type') as 'story' | 'epic' | 'spike';
-  //     const title = row.getValue('title') as string;
-  //     const point = row.getValue('point') as number;
-  //     return <StoryForm type={type} title={title} point={point} />;
-  //   },
-  // },
+  {
+    id: 'edit',
+    accessorKey: 'edit',
+    cell: ({ row }) => {
+      const id: number = row.getValue('storyID');
+      const type = row.getValue('type') as 'story' | 'epic' | 'spike';
+      const title = row.getValue('title') as string;
+      const point = row.getValue('point') as number;
+      return (
+        <div className="flex gap-2">
+          <StoryDialog
+            storyID={id}
+            text="스토리 수정하기"
+            type={type}
+            title={title}
+            point={point}
+            progress="ready"
+            variant="edit"
+          />
+          <StoryRemoveButton id={id} />
+        </div>
+      );
+    },
+  },
 ];
