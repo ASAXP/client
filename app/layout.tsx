@@ -1,8 +1,12 @@
 import type { Metadata } from 'next';
+import { Bell } from 'lucide-react';
+import Login from '@/organisms/login/login';
 import { Inter } from 'next/font/google';
 import React from 'react';
+import Link from 'next/link';
 import './globals.css';
 import Providers from './providers';
+import { Toaster } from '@/components/atoms/toaster';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -19,7 +23,26 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Providers>{children}</Providers>
+        <Providers>
+          <header className="flex justify-between p-2">
+            <nav>
+              <ul className="flex gap-4">
+                <li>
+                  <Link href="/works">내 작업</Link>
+                </li>
+                <li>
+                  <Link href="/projects">프로젝트</Link>
+                </li>
+              </ul>
+            </nav>
+            <div className="flex gap-2 items-center">
+              <Bell className="rotate-45 fill-slate-600" />
+              <Login />
+            </div>
+          </header>
+          <main>{children}</main>
+        </Providers>
+        <Toaster />
       </body>
     </html>
   );
