@@ -1,0 +1,37 @@
+# <type>[optional scope]: <description>
+# 
+# [optional body]
+# 
+# [optional footer(s)]
+
+
+# <type>
+# feat: 새 기능 추가 및 제거
+# refactor: 리팩터링
+# build: 빌드 도구, ci 파이프라인, dependencies, project version...
+# perf: 퍼포먼스 향상
+# fix: 버그 수정
+# !HOTFIX: 핫픽스
+# chore: 프로젝트 환경설정 파일 업데이트, .gitignore 등등
+# docs: 문서 수정, Readme.md 등등
+# remove: 파일 삭제
+# style: css, 스타일 수정
+# test: 테스트 코드 작성
+
+
+# <body>
+# - 20자 이상 입력
+# - 명령문, 현재시제
+# - 동기
+# - 동작 비교
+# 
+# <footer>
+# - breaking Change, or <type>!
+# - commit close, github issue, jira ticket, pull request 등등 처리
+# - example
+#     - BREAKING CHANGE: <summary>
+#       <description>
+#     - Fixes: #<issue number>
+#     - DEPRECATED: <dependency>
+#     - CLOSES: #<pr number>
+

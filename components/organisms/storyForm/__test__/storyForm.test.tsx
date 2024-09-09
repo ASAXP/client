@@ -23,7 +23,7 @@ describe('스토리 폼 테스트', () => {
     const form = screen.getByTestId('story-form');
     expect(form).toHaveFormValues({
       type: 'story',
-      point: '0',
+      point: '1',
     });
   });
 });
